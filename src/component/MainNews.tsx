@@ -1,20 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-
-interface Article {
-  id: string;
-  title: string;
-  description: string;
-  link: string;
-  imageUrl: string;
-  imageAlt: string;
-  category: string;
-  type: string;
-  isLive: boolean;
-  firstPublished: string;
-  lastPublished: string;
-  source: string;
-}
+import type { Article } from '@/types/article';
 
 interface MainNewsProps {
   news: Article[];
@@ -27,7 +13,7 @@ const MainNews = ({ news }: MainNewsProps) => {
   const { id, title, description, imageUrl, imageAlt, category } = firstNews;
 
   return (
-    <div className="container mx-auto grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {/* প্রধান খবর */}
       <div className="card bg-base-100 shadow-sm">
         <figure className="relative aspect-video w-full">

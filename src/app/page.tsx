@@ -1,22 +1,7 @@
 import MainNews from '@/component/MainNews';
 import NewsGrid from '@/component/NewsGrid';
-
 import MostRead from '@/component/MostRead';
-
-interface Article {
-  id: string;
-  title: string;
-  description: string;
-  link: string;
-  imageUrl: string;
-  imageAlt: string;
-  category: string;
-  type: string;
-  isLive: boolean;
-  firstPublished: string | null;
-  lastPublished: string | null;
-  source: string;
-}
+import type { Article } from '@/types/article';
 
 interface NewsSection {
   title: string;
@@ -27,6 +12,11 @@ interface NewsSection {
   articles: Article[];
 }
 
+const HIDDEN_SECTIONS = [
+  'বিবিসি বাংলা এখন হোয়াটসঅ্যাপে!',
+  'বিবিসি বাংলা এখন ইন্সটাগ্রামে!',
+];
+
 export default async function Home() {
   let sections: NewsSection[] = [];
 
@@ -34,9 +24,7 @@ export default async function Home() {
     const res = await fetch(
       'https://news-api-v2.vercel.app/api/news/sections',
       {
-        next: {
-          revalidate: 300,
-        },
+        next: { revalidate: 300 },
       },
     );
 
@@ -45,10 +33,7 @@ export default async function Home() {
     }
 
     const data = await res.json();
-
     sections = data.data ?? [];
-
-   
   } catch (error) {
     console.error('NEWS FETCH FAILED:', error);
   }
@@ -58,28 +43,21 @@ export default async function Home() {
 
   return (
     <div>
-      {/* Marquee */}
-     
-
-      {/* প্রধান খবর */}
-      <div className="container mx-auto grid grid-cols-1 gap-6 px-4 py-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+      {/* প্রধান খবর + সর্বাধিক পঠিত */}
+      <div className="container mx-auto grid grid-cols-1 gap-6 px-4 py-4 sm:py-6 lg:grid-cols-3">
+        <div className="min-w-0 lg:col-span-2">
           <MainNews news={mainNews} />
         </div>
 
-        <aside className="lg:col-span-1">
-          <MostRead/>
+        <aside className="min-w-0 lg:col-span-1">
+          <MostRead />
         </aside>
       </div>
 
       {/* বাকি সব section */}
       {sections
         .slice(1)
-        .filter(
-          section =>
-            section.title !== 'বিবিসি বাংলা এখন হোয়াটসঅ্যাপে!' &&
-            section.title !== 'বিবিসি বাংলা এখন ইন্সটাগ্রামে!',
-        )
+        .filter(section => !HIDDEN_SECTIONS.includes(section.title))
         .map(section => (
           <NewsGrid
             key={section.curationId}

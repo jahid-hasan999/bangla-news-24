@@ -1,8 +1,7 @@
-import type { ComponentProps } from 'react';
 import NewsGrid from '@/component/NewsGrid';
+import type { Article } from '@/types/article';
 
-type Articles = ComponentProps<typeof NewsGrid>['news'];
-type CategoryResponse = { title?: string; data?: Articles; topicId?: string };
+type CategoryResponse = { title?: string; data?: Article[]; topicId?: string };
 
 const CategoryPage = async ({
   params,

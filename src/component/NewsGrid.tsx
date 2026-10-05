@@ -1,20 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-
-export interface Article {
-  id: string;
-  title: string;
-  description: string;
-  link: string;
-  imageUrl: string;
-  imageAlt: string;
-  category: string;
-  type: string;
-  isLive: boolean;
-  firstPublished: string;
-  lastPublished: string;
-  source: string;
-}
+import type { Article } from '@/types/article';
 
 interface NewsGridProps {
   title: string;
@@ -57,14 +43,17 @@ const NewsGrid = ({ title, news }: NewsGridProps) => {
               <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-gray-600">
                 {item.description}
               </p>
-              <p className="text-xs text-gray-400">
-                {new Date(item.firstPublished).toLocaleDateString('bn-BD', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                  timeZone: 'Asia/Dhaka',
-                })}
-              </p>
+
+              {item.firstPublished && (
+                <p className="text-xs text-gray-400">
+                  {new Date(item.firstPublished).toLocaleDateString('bn-BD', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    timeZone: 'Asia/Dhaka',
+                  })}
+                </p>
+              )}
             </div>
           </Link>
         ))}
