@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import SignInOut from './SignInOut';
 
 const Header = () => {
   const date = new Date().toLocaleDateString('bn-BD', {
@@ -31,15 +32,7 @@ const Header = () => {
 
       {/* ডান: সাইন ইন / সাইন আপ */}
       <div className="flex items-center justify-center gap-2 md:justify-end md:gap-3">
-        <Link href="/sign-in" className="btn btn-sm md:btn-md">
-          সাইন ইন
-        </Link>
-        <Link
-          href="/sign-up"
-          className="btn btn-sm bg-red-700 text-amber-50 md:btn-md"
-        >
-          সাইন আপ
-        </Link>
+        <SignInOut/>
       </div>
     </header>
   );
