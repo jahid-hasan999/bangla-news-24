@@ -21,4 +21,9 @@ export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
   }),
+
+  trustedOrigins: [
+    'http://localhost:3000',
+    'https://bangla-news-24-omega.vercel.app/',
+  ],
 });
